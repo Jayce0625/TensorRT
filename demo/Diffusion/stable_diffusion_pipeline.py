@@ -157,7 +157,7 @@ class StableDiffusionPipeline:
 
         self.version = version
         # ---------------------------------------------------------------------------
-        self.model_path = os.path.join('/huggingface/hf_models/', local_model_name)
+        self.local_model_path = os.path.join('/huggingface/hf_models/', local_model_name)
         # ---------------------------------------------------------------------------
         self.controlnets = controlnets
 
@@ -196,7 +196,7 @@ class StableDiffusionPipeline:
 
         def makeScheduler(cls, subfolder="scheduler", **kwargs):
             # return cls.from_pretrained(get_path(self.version, self.pipeline_type), subfolder=subfolder)
-            return cls.from_pretrained(self.model_path, subfolder=subfolder)
+            return cls.from_pretrained(self.local_model_path, subfolder=subfolder)
 
         if scheduler == "DDIM":
             self.scheduler = makeScheduler(DDIMScheduler)
@@ -387,14 +387,14 @@ class StableDiffusionPipeline:
 
         # Load text tokenizer(s)
         if not self.pipeline_type.is_sd_xl_refiner():
-            self.tokenizer = make_tokenizer(self.version, self.model_path, self.pipeline_type, self.hf_token, framework_model_dir)
+            self.tokenizer = make_tokenizer(self.version, self.local_model_path, self.pipeline_type, self.hf_token, framework_model_dir)
         if self.pipeline_type.is_sd_xl():
-            self.tokenizer2 = make_tokenizer(self.version, self.model_path, self.pipeline_type, self.hf_token, framework_model_dir, subfolder='tokenizer_2')
+            self.tokenizer2 = make_tokenizer(self.version, self.local_model_path, self.pipeline_type, self.hf_token, framework_model_dir, subfolder='tokenizer_2')
 
         # Load pipeline models
-        models_args = {'version': self.version, 'pipeline': self.pipeline_type, 'device': self.device,
-            'hf_token': self.hf_token, 'verbose': self.verbose, 'framework_model_dir': framework_model_dir,
-            'max_batch_size': self.max_batch_size}
+        models_args = {'version': self.version, 'local_model_path': self.local_model_path, 'pipeline': self.pipeline_type, 
+                       'device': self.device, 'hf_token': self.hf_token, 'verbose': self.verbose, 
+                       'framework_model_dir': framework_model_dir, 'max_batch_size': self.max_batch_size}
 
         if 'clip' in self.stages:
             subfolder = 'text_encoder'
