@@ -69,21 +69,12 @@ python3 demo_controlnet.py --help
 python3 demo_txt2img_xl.py --help
 ```
 
-### HuggingFace user access token
-
-To download model checkpoints for the Stable Diffusion pipelines, obtain a `read` access token to HuggingFace Hub. See [instructions](https://huggingface.co/docs/hub/security-tokens).
-> NOTE: This step isn't required for many models now. 
-
-```bash
-export HF_TOKEN=<your access token>
-```
-
 ### Generate an image guided by a text prompt
 
 ```bash
-python3 demo_txt2img.py "a beautiful photograph of Mt. Fuji during cherry blossom" --hf-token=$HF_TOKEN
+python3 demo_txt2img.py "a beautiful photograph of Mt. Fuji during cherry blossom" --version 1.5 --local-model-name runwayml/stable-diffusion-v1-5 -v
 ```
-
+以下未进行测试
 ### Generate an image guided by an initial image and a text prompt
 
 ```bash
