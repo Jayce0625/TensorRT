@@ -74,6 +74,7 @@ class StableDiffusionPipeline:
     def __init__(
         self,
         version='1.5',
+        local_model_name='runwayml/stable-diffusion-v1-5',
         pipeline_type=PIPELINE_TYPE.TXT2IMG,
         max_batch_size=16,
         denoising_steps=30,
@@ -155,6 +156,9 @@ class StableDiffusionPipeline:
         self.nvtx_profile = nvtx_profile
 
         self.version = version
+        # ---------------------------------------------------------------------------
+        self.model_path = os.path.join('/huggingface/hf_models/', local_model_name)
+        # ---------------------------------------------------------------------------
         self.controlnets = controlnets
 
         # Pipeline type
@@ -191,7 +195,8 @@ class StableDiffusionPipeline:
             print(f"[I] Autoselected scheduler: {scheduler}")
 
         def makeScheduler(cls, subfolder="scheduler", **kwargs):
-            return cls.from_pretrained(get_path(self.version, self.pipeline_type), subfolder=subfolder)
+            # return cls.from_pretrained(get_path(self.version, self.pipeline_type), subfolder=subfolder)
+            return cls.from_pretrained(self.model_path, subfolder=subfolder)
 
         if scheduler == "DDIM":
             self.scheduler = makeScheduler(DDIMScheduler)
@@ -382,9 +387,9 @@ class StableDiffusionPipeline:
 
         # Load text tokenizer(s)
         if not self.pipeline_type.is_sd_xl_refiner():
-            self.tokenizer = make_tokenizer(self.version, self.pipeline_type, self.hf_token, framework_model_dir)
+            self.tokenizer = make_tokenizer(self.version, self.model_path, self.pipeline_type, self.hf_token, framework_model_dir)
         if self.pipeline_type.is_sd_xl():
-            self.tokenizer2 = make_tokenizer(self.version, self.pipeline_type, self.hf_token, framework_model_dir, subfolder='tokenizer_2')
+            self.tokenizer2 = make_tokenizer(self.version, self.model_path, self.pipeline_type, self.hf_token, framework_model_dir, subfolder='tokenizer_2')
 
         # Load pipeline models
         models_args = {'version': self.version, 'pipeline': self.pipeline_type, 'device': self.device,

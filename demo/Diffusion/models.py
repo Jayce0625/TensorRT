@@ -546,7 +546,11 @@ class CLIPModel(BaseModel):
     def get_model(self, torch_inference=''):
         clip_model_dir = get_checkpoint_dir(self.framework_model_dir, self.version, self.pipeline, self.subfolder, torch_inference)
         if not os.path.exists(clip_model_dir):
-            model = CLIPTextModel.from_pretrained(self.path,
+            # model = CLIPTextModel.from_pretrained(self.path,
+            #     subfolder=self.subfolder,
+            #     use_safetensors=self.hf_safetensor,
+            #     use_auth_token=self.hf_token).to(self.device)
+            model = CLIPTextModel.from_pretrained("/huggingface/hf_models/runwayml/stable-diffusion-v1-5",
                 subfolder=self.subfolder,
                 use_safetensors=self.hf_safetensor,
                 use_auth_token=self.hf_token).to(self.device)
@@ -1390,13 +1394,16 @@ class SD3_VAEEncoderModel(VAEEncoderModel):
         dtype = torch.float16 if self.fp16 else torch.float32
         return torch.randn(batch_size, 3, image_height, image_width, dtype=dtype, device=self.device)
 
-def make_tokenizer(version, pipeline, hf_token, framework_model_dir, subfolder="tokenizer", **kwargs):
+def make_tokenizer(version, model_path, pipeline, hf_token, framework_model_dir, subfolder="tokenizer", **kwargs):
     tokenizer_model_dir = get_checkpoint_dir(framework_model_dir, version, pipeline.name, subfolder, '')
     if not os.path.exists(tokenizer_model_dir):
-        model = CLIPTokenizer.from_pretrained(get_path(version, pipeline),
+        # model = CLIPTokenizer.from_pretrained(get_path(version, pipeline),
+        #         subfolder=subfolder,
+        #         use_safetensors=pipeline.is_sd_xl(),
+        #         use_auth_token=hf_token)
+        model = CLIPTokenizer.from_pretrained(model_path,
                 subfolder=subfolder,
-                use_safetensors=pipeline.is_sd_xl(),
-                use_auth_token=hf_token)
+                use_safetensors=pipeline.is_sd_xl())
         model.save_pretrained(tokenizer_model_dir)
     else:
         print(f"[I] Load tokenizer pytorch model from: {tokenizer_model_dir}")
