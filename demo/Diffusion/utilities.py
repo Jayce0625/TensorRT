@@ -422,7 +422,7 @@ def add_arguments(parser):
     # Stable Diffusion configuration
     parser.add_argument('--version', type=str, default="1.5", choices=["1.4", "1.5", "dreamshaper-7", "2.0-base", "2.0", "2.1-base", "2.1", "xl-1.0", "xl-turbo"], help="Version of Stable Diffusion")
     # --------------------------------------------------------------------------------------------------------------------------
-    parser.add_argument('--local-model-name', type=str, nargs='+', default="runwayml/stable-diffusion-v1-5", help="Path to local model. Ex: 'runwayml/stable-diffusion-v1-5'")
+    parser.add_argument('--local-model-name', type=str, default="runwayml/stable-diffusion-v1-5", help="Path to local model. Ex: 'runwayml/stable-diffusion-v1-5'")
     # --------------------------------------------------------------------------------------------------------------------------
     parser.add_argument('prompt', nargs = '*', help="Text prompt(s) to guide image generation")
     parser.add_argument('--negative-prompt', nargs = '*', default=[''], help="The negative prompt(s) to guide the image generation.")
