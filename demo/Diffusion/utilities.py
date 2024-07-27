@@ -461,7 +461,7 @@ def add_arguments(parser):
 
     parser.add_argument('--seed', type=int, default=None, help="Seed for random generator to get consistent results")
     parser.add_argument('--output-dir', default='output', help="Output directory for logs and image artifacts")
-    parser.add_argument('--hf-token', type=str, help="HuggingFace API access token for downloading model checkpoints")
+    parser.add_argument('--hf-token', type=str, default=None, help="HuggingFace API access token for downloading model checkpoints")
     parser.add_argument('-v', '--verbose', action='store_true', help="Show verbose output")
     return parser
 
