@@ -322,9 +322,9 @@ class BaseModel():
         self.pipeline = pipeline.name
         self.version = version
         self.path = get_path(version, pipeline)
-        # ----------------------------------------
+        # -----------------------------------------
         self.local_model_path = local_model_path
-        # ----------------------------------------
+        # -----------------------------------------
         self.device = device
         self.hf_token = hf_token
         self.hf_safetensor = not (pipeline.is_inpaint() and version in ("1.4", "1.5"))
