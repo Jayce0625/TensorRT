@@ -25,12 +25,12 @@ from utilities import PIPELINE_TYPE, TRT_LOGGER, add_arguments, process_pipeline
 def parseArgs():
     parser = argparse.ArgumentParser(description="Options for Stable Diffusion Txt2Img Demo")
     parser = add_arguments(parser)
+    print("hello")
     return parser.parse_args()
 
 if __name__ == "__main__":
     print("[I] Initializing StableDiffusion txt2img demo using TensorRT")
     args = parseArgs()
-    print("hello")
 
     kwargs_init_pipeline, kwargs_load_engine, args_run_demo = process_pipeline_args(args)
 
