@@ -30,6 +30,7 @@ def parseArgs():
 if __name__ == "__main__":
     print("[I] Initializing StableDiffusion txt2img demo using TensorRT")
     args = parseArgs()
+    print("hello")
 
     kwargs_init_pipeline, kwargs_load_engine, args_run_demo = process_pipeline_args(args)
 
