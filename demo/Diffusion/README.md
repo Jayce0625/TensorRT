@@ -3,10 +3,34 @@
 This demo application ("demoDiffusion") showcases the acceleration of Stable Diffusion and ControlNet pipeline using TensorRT.
 
 # Setup
+Please be strict with every line of command, including file level switching (cd .. etc.)
+
+### Create a folder of pre-trained models and download the corresponding pre-trained models
+
+```bash
+mkdir huggingface
+cd huggingface
+# Put the extra download_hf.py provided in this demo into the huggingface folder
+
+# trt supports the following versions of SD [1.4, 1.5, 2.0, 2.0-base, 2.1, 2.1-base], using the default 1.5
+pip install huggingface-hub
+python download_hf.py -r runwayml/stable-diffusion-v1-5 -c ./hub -l ./hf_models
+# To download a pre-trained model for a different version of SD, simply change the value of the script's -r option, commonly used as follows
+# 1.4: CompVis/stable-diffusion-v1-4
+# 1.5: runwayml/stable-diffusion-v1-5
+# 2.0: stabilityai/stable-diffusion-2
+# 2.0-base: stabilityai/stable-diffusion-2-base
+# 2.1: stabilityai/stable-diffusion-2-1
+# 2.1-base: stabilityai/stable-diffusion-2-1-base
+```
 
 ### Clone the TensorRT OSS repository
 
 ```bash
+# Return to the previous directory so that TensorRT is on the same level as the huggingface folder
+cd ..
+
+# Clone the codebase, this is a modified path version, if you execute every line of code exactly, it will run without any modifications
 git clone https://github.com/Jayce0625/TensorRT.git
 cd TensorRT
 ```
@@ -16,7 +40,8 @@ cd TensorRT
 Install nvidia-docker using [these intructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
 
 ```bash
-docker run --rm -it --gpus all -v $PWD:/workspace nvcr.io/nvidia/pytorch:24.05-py3 /bin/bash
+# CUDA version >= 11.8
+docker run -it --gpus all -v $PWD/../huggingface:/huggingface -v $PWD:/workspace nvcr.io/nvidia/pytorch:24.05-py3 /bin/bash
 ```
 
 NOTE: The demo supports CUDA>=11.8
@@ -74,7 +99,15 @@ python3 demo_txt2img_xl.py --help
 ```bash
 python3 demo_txt2img.py "a beautiful photograph of Mt. Fuji during cherry blossom" --version 1.5 --local-model-name runwayml/stable-diffusion-v1-5 -v
 ```
-以下未进行测试
+Three parameters need to be provided, --version is the version of SD used, the value of which can be selected from [1.4, 1.5, 2.0, 2.0-base, 2.1, 2.1-base], and --local-model-name is the specific repo for the different versions of the pre-trained model used, the value of which can be as follows:
+1.4: CompVis/stable-diffusion-v1-4
+1.5: runwayml/stable-diffusion-v1-5
+2.0: stabilityai/stable-diffusion-2
+2.0-base: stabilityai/stable-diffusion-2-base
+2.1: stabilityai/stable-diffusion-2-1
+2.1-base: stabilityai/stable-diffusion-2-1-base
+
+The following are not tested
 ### Generate an image guided by an initial image and a text prompt
 
 ```bash
