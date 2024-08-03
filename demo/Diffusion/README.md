@@ -100,12 +100,14 @@ python3 demo_txt2img_xl.py --help
 python3 demo_txt2img.py "a beautiful photograph of Mt. Fuji during cherry blossom" --version 1.5 --local-model-name runwayml/stable-diffusion-v1-5 -v
 ```
 Three parameters need to be provided, --version is the version of SD used, the value of which can be selected from [1.4, 1.5, 2.0, 2.0-base, 2.1, 2.1-base], and --local-model-name is the specific repo for the different versions of the pre-trained model used, the value of which can be as follows:
+```bash
 1.4: CompVis/stable-diffusion-v1-4
 1.5: runwayml/stable-diffusion-v1-5
 2.0: stabilityai/stable-diffusion-2
 2.0-base: stabilityai/stable-diffusion-2-base
 2.1: stabilityai/stable-diffusion-2-1
 2.1-base: stabilityai/stable-diffusion-2-1-base
+```
 
 The following are not tested
 ### Generate an image guided by an initial image and a text prompt
